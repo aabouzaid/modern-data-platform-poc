@@ -1,0 +1,42 @@
++ echo 'First Run'
+First Run
++ jmeter -n -t DremioTestPlanTPC-DS.jmx
+Creating summariser <summary>
+Created the tree successfully using DremioTestPlanTPC-DS.jmx
+Starting standalone test @ 2023 Mar 13 03:15:45 CET (1678673745418)
+summary +     12 in 00:01:16 =    0.2/s Avg:  6371 Min:  2204 Max: 17084 Err:     0 (0.00%) Active: 1 Started: 1 Finished: 0
+summary +      9 in 00:00:30 =    0.3/s Avg:  3316 Min:  1196 Max:  7138 Err:     3 (33.33%) Active: 1 Started: 1 Finished: 0
+summary =     21 in 00:01:46 =    0.2/s Avg:  5062 Min:  1196 Max: 17084 Err:     3 (14.29%)
+summary +      8 in 00:00:32 =    0.2/s Avg:  4037 Min:  1685 Max:  7842 Err:     3 (37.50%) Active: 1 Started: 1 Finished: 0
+summary =     29 in 00:02:19 =    0.2/s Avg:  4779 Min:  1196 Max: 17084 Err:     6 (20.69%)
+summary +      6 in 00:00:26 =    0.2/s Avg:  4360 Min:  1126 Max: 11324 Err:     0 (0.00%) Active: 1 Started: 1 Finished: 0
+summary =     35 in 00:02:45 =    0.2/s Avg:  4707 Min:  1126 Max: 17084 Err:     6 (17.14%)
+summary +     14 in 00:00:31 =    0.4/s Avg:  2224 Min:   717 Max:  6143 Err:     3 (21.43%) Active: 1 Started: 1 Finished: 0
+summary =     49 in 00:03:16 =    0.3/s Avg:  3998 Min:   717 Max: 17084 Err:     9 (18.37%)
+summary +      5 in 00:00:28 =    0.2/s Avg:  5649 Min:  2301 Max: 15477 Err:     0 (0.00%) Active: 1 Started: 1 Finished: 0
+summary =     54 in 00:03:44 =    0.2/s Avg:  4151 Min:   717 Max: 17084 Err:     9 (16.67%)
+summary +      2 in 00:00:05 =    0.4/s Avg:  2455 Min:  1329 Max:  3582 Err:     1 (50.00%) Active: 0 Started: 1 Finished: 1
+summary =     56 in 00:03:49 =    0.2/s Avg:  4090 Min:   717 Max: 17084 Err:    10 (17.86%)
+Tidying up ...    @ 2023 Mar 13 03:19:34 CET (1678673974988)
+... end of run
++ mv DremioSummary-tpc-ds.csv dremio-v24.0.0-tpc-ds-10g-cold.csv
++ echo 'Second Run'
+Second Run
++ jmeter -n -t DremioTestPlanTPC-DS.jmx
+Creating summariser <summary>
+Created the tree successfully using DremioTestPlanTPC-DS.jmx
+Starting standalone test @ 2023 Mar 13 03:19:36 CET (1678673976530)
+summary +      7 in 00:00:23 =    0.3/s Avg:  3349 Min:   808 Max:  7632 Err:     0 (0.00%) Active: 1 Started: 1 Finished: 0
+summary +     15 in 00:00:30 =    0.5/s Avg:  1977 Min:   180 Max:  5377 Err:     3 (20.00%) Active: 1 Started: 1 Finished: 0
+summary =     22 in 00:00:53 =    0.4/s Avg:  2414 Min:   180 Max:  7632 Err:     3 (13.64%)
+summary +      9 in 00:00:31 =    0.3/s Avg:  3489 Min:   380 Max:  8449 Err:     3 (33.33%) Active: 1 Started: 1 Finished: 0
+summary =     31 in 00:01:25 =    0.4/s Avg:  2726 Min:   180 Max:  8449 Err:     6 (19.35%)
+summary +     18 in 00:00:30 =    0.6/s Avg:  1674 Min:   127 Max:  5939 Err:     3 (16.67%) Active: 1 Started: 1 Finished: 0
+summary =     49 in 00:01:55 =    0.4/s Avg:  2340 Min:   127 Max:  8449 Err:     9 (18.37%)
+summary +      7 in 00:00:26 =    0.3/s Avg:  3690 Min:   332 Max: 12427 Err:     1 (14.29%) Active: 0 Started: 1 Finished: 1
+summary =     56 in 00:02:21 =    0.4/s Avg:  2508 Min:   127 Max: 12427 Err:    10 (17.86%)
+Tidying up ...    @ 2023 Mar 13 03:21:57 CET (1678674117494)
+... end of run
++ mv DremioSummary-tpc-ds.csv dremio-v24.0.0-tpc-ds-10g-warm.csv
++ echo Done
+Done
