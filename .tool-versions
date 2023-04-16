@@ -1,0 +1,4 @@
+helm 3.11.1
+kind 0.17.0
+kubectl 1.24.10
+kustomize 5.0.0
