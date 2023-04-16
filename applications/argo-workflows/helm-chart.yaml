@@ -1,0 +1,36 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: argo-workflows
+name: argo-workflows
+repo: https://argoproj.github.io/argo-helm
+version: 0.22.11
+releaseName: argo-workflows
+namespace: argo-workflows
+valuesInline:
+  crds:
+    install: true
+  server:
+    extraArgs: ["--auth-mode=server"]
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts: ["ui.argo.local.gd"]
+      annotations:
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: argo-workflows-basic-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+  singleNamespace: true
+  useStaticCredentials: true
+  useDefaultArtifactRepo: true
+  artifactRepository:
+    s3:
+      insecure: true
+      endpoint: minio.minio:9000
+      bucket: datalake
+      accessKeySecret:
+        name: minio-datalake-access
+        key: username
+      secretKeySecret:
+        name: minio-datalake-access
+        key: password

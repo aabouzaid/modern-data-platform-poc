@@ -1,0 +1,23 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: minio
+name: minio
+repo: https://charts.bitnami.com/bitnami
+version: 12.1.7
+releaseName: minio
+namespace: minio
+valuesInline:
+  ingress:
+    enabled: true
+    hostname: ui.minio.local.gd
+    ingressClassName: nginx
+  defaultBuckets: "datalake,dremio"
+  provisioning:
+    enabled: true
+    users:
+    - disabled: false
+      username: datalake
+      password: datalake_poc
+      policies:
+      - readwrite

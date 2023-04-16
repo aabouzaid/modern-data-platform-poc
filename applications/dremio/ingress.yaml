@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dremio
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ui.dremio.local.gd
+    http:
+      paths:
+      - backend:
+          service:
+            name: dremio-client
+            port:
+              name: web
+        path: /
+        pathType: ImplementationSpecific

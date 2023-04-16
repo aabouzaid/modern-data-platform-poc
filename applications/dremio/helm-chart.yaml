@@ -1,0 +1,50 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: dremio
+name: dremio
+repo: https://aabouzaid.github.io/dremio-helm-repo
+version: 24.0.0
+releaseName: dremio
+namespace: dremio
+valuesInline:
+  coordinator:
+    cpu: 1
+    memory: 4096
+    volumeSize: 1Gi
+  executor:
+    cpu: 1
+    memory: 4096
+    count: 1
+    volumeSize: 1Gi
+  zookeeper:
+    count: 1
+    volumeSize: 1Gi
+  distStorage:
+    type: "aws"
+    aws:
+      bucketName: "dremio"
+      path: "/"
+      authentication: "accessKeySecret"
+      credentials:
+        accessKey: "datalake"
+        secret: "datalake_poc"
+      extraProperties: |
+        <property>
+            <name>fs.s3a.endpoint</name>
+            <value>minio.minio:9000</value>
+        </property>
+        <property>
+            <name>fs.s3a.path.style.access</name>
+            <value>true</value>
+        </property>
+        <property>
+            <name>dremio.s3.compat</name>
+            <value>true</value>
+        </property>
+        <property>
+            <name>fs.s3a.connection.ssl.enabled</name>
+            <value>false</value>
+        </property>
+  service:
+    type: ClusterIP
