@@ -1,0 +1,76 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  name: covid19-subnational-data
+  generateName: data-ingestion-
+spec:
+  entrypoint: get-ecdc-data
+  templates:
+  - name: get-ecdc-data
+    steps:
+    - - name: get-ecdc-data
+        template: extract-and-load-into-datalake
+        arguments:
+          artifacts:
+          - name: ecdc_covid19_subnational_case_daily
+            http:
+              url: "https://opendata.ecdc.europa.eu/covid19/subnationalcasedaily/json/"
+          parameters:
+          - name: year
+            value: "{{ item }}"
+        withItems:
+        - 2020
+        - 2021
+        - 2022
+  - name: extract-and-load-into-datalake
+    inputs:
+      artifacts:
+      - name: ecdc_covid19_subnational_case_daily
+        path: /tmp/ecdc_covid19_subnational_case_daily.json
+      parameters:
+      - name: year
+    script:
+      image: python:3.8-alpine
+      command: [python]
+      env:
+      - name: YEAR
+        value: "{{ inputs.parameters.year }}"
+      - name: INPUT_FILE
+        value: "/tmp/ecdc_covid19_subnational_case_daily.json"
+      - name: OUTPUT_FILE
+        value: "/tmp/ecdc_covid19_subnational_case_daily_{{ inputs.parameters.year }}.json"
+      source: |
+        import json
+        import os
+        import random
+
+        # Vars.
+        year = os.getenv("YEAR")
+        input_file = os.getenv("INPUT_FILE", "input.json")
+        output_file = os.getenv("OUTPUT_FILE", f"output_{year}.json")
+
+        # Load.
+        print("[INFO] Read input file {input_file} ...")
+        with open(input_file, 'r') as f:
+            data = json.loads(f.read())
+
+        # Extract.
+        print(f"[INFO] Filter data by year {year} ...")
+        filtered_by_year = [item for item in data if item['date'].startswith(year)]
+
+        # Verify.
+        print("[INFO] Sample:", random.choice(filtered_by_year))
+
+        # Save.
+        print(f"[INFO] Write data for year {year} into {output_file} ...")
+        with open(output_file, 'w') as f:
+            f.write(json.dumps(filtered_by_year, indent=2))
+        print("[INFO] Done")
+    outputs:
+      artifacts:
+      - name: ecdc_covid19_subnational_case_daily_year
+        path: /tmp/ecdc_covid19_subnational_case_daily_{{ inputs.parameters.year }}.json
+        s3:
+          key: /ecdc/covid19/world_wide_subnational_case_daily_{{ inputs.parameters.year }}.json
+        archive:
+          none: {}
